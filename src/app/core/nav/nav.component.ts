@@ -1,29 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from '../../_services/authentication.service';
+import { Component, OnInit } from "@angular/core";
+import { AuthenticationService } from "../../_services/authentication.service";
 
 @Component({
-  selector: 'cr-nav',
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  selector: "cr-nav",
+  templateUrl: "./nav.component.html",
+  styleUrls: ["./nav.component.css"],
 })
 export class NavComponent implements OnInit {
   isIn = false;
   loading = false;
-  error = '';
-
+  error = "";
+  username!: string;
+  password!: string;
   toggleState() {
-    this.isIn = !this.isIn
+    this.isIn = !this.isIn;
   }
 
-  constructor(private auth: AuthenticationService) { }
+  constructor(public auth: AuthenticationService) {}
 
   ngOnInit() {
+    console.log("Login");
   }
 
-  login(formvalues) {
-    this.auth.login(formvalues.username, formvalues.password)
-      .subscribe(result => {
-        if(result === true) {
+  login(formvalues: any) {
+    this.auth
+      .login(formvalues.username, formvalues.password)
+      .subscribe((result) => {
+        if (result === true) {
           // login successful
           this.auth.isAuthenticated = true;
         } else {
@@ -36,5 +39,4 @@ export class NavComponent implements OnInit {
   logout() {
     this.auth.logout();
   }
-
 }
